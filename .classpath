@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/main/resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="lib/asm-3.3.1.jar"/>
+	<classpathentry kind="lib" path="lib/jersey-client.jar"/>
+	<classpathentry kind="lib" path="lib/jersey-core-1.17.jar"/>
+	<classpathentry kind="lib" path="lib/jersey-grizzly2-1.17.jar"/>
+	<classpathentry kind="lib" path="lib/jersey-server-1.17.jar"/>
+	<classpathentry kind="lib" path="lib/jersey-test-framework-1.1.4.1.jar"/>
+	<classpathentry kind="lib" path="lib/jsr311-api-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/mongo-2.10.1.jar"/>
+	<classpathentry kind="lib" path="lib/twitter4j-async-3.0.4-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/twitter4j-core-3.0.4-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/twitter4j-examples-3.0.4-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/twitter4j-media-support-3.0.4-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/twitter4j-stream-3.0.4-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/grizzly-http-all-2.3.5.jar" sourcepath="lib/grizzly-http-all-2.3.5-sources.jar"/>
+	<classpathentry kind="output" path="src/main/webapp/WEB-INF/classes"/>
+</classpath>

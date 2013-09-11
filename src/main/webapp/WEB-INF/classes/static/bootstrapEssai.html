@@ -1,0 +1,14 @@
+    
+    public LinkedList<String> hackHashtags(String doc) throws Exception {
+        
+               
+                
+            /* remove last coma */
+            sb.deleteCharAt(sb.length()-1);
+            String words = sb.toString();
+            words = words.replaceAll("\\s*,\\s*", ",");
+            words = words.replaceAll(",\\s*,", ",");
+            String[] lexicalField = words.split(",");
+            for (String word : lexicalField) {
+                dico.add(word);
+            }
