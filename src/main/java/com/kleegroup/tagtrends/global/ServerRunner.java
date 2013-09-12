@@ -52,6 +52,10 @@ public class ServerRunner {
 				new StaticHttpHandler(
 						"src/main/resources/static"),
 				"/static");
+//		httpServer.getServerConfiguration().addHttpHandler(
+//				new StaticHttpHandler(
+//						"src/main/resources/"),
+//				"/");
 		return httpServer;
 	}
 
@@ -67,7 +71,9 @@ public class ServerRunner {
 	}
 
 	private static URI getBaseURI() {
-		return UriBuilder.fromUri("http://localhost/").port(getPort(9998))
+//		return UriBuilder.fromUri("http://192.168.255.10/").port(getPort(9998))
+//				.build();
+				return UriBuilder.fromUri("http://localhost/").port(getPort(9998))
 				.build();
 	}
 }

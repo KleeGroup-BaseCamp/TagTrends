@@ -8,7 +8,7 @@ import javax.ws.rs.Produces;
 import com.kleegroup.tagtrends.global.CollectAndTreatment;
 import com.kleegroup.tagtrends.global.Database;
 import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
+import com.mongodb.DBCollection;
 
 @Path("/myResourceCollect") // The Java class will be hosted at this URI path
 public class MyResourceCollect {
@@ -21,10 +21,31 @@ public class MyResourceCollect {
     }
     
 	public int limitedCollect(int durationOfCollect, String collectionName) throws Exception {
+		removeEmptyCollections();
 		if (!collectionName.equals("exampleData")){
+			removePreviousAnalysis(collectionName);
 			CollectAndTreatment.launchCollectAndTreatment(collectionName, durationOfCollect);
 		}
 		return Database.getDB().getCollection(collectionName).find(new BasicDBObject("text", new BasicDBObject("$exists", true))).count();
+	}
+	
+	/* 
+	 * remove trash in database (routine action)
+	 */
+	public void removeEmptyCollections() {
+		for (String collectionName : Database.getDB().getCollectionNames()){
+			DBCollection dbc = Database.getDB().getCollection(collectionName);
+			if  (dbc.count()==0){
+				dbc.drop();
+			}
+		}
+	}
+	
+	/* 
+	 * remove eventual previous analysisResults in case (analysis has to be redone from scratch) 
+	 */
+	public void removePreviousAnalysis(String collectionName) {
+		Database.getDB().getCollection(collectionName).remove(new BasicDBObject("hashtag", new BasicDBObject("$exists", true)));
 	}
 	
 	public static void main(String[] args) throws Exception {

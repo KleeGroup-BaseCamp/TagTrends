@@ -2,7 +2,6 @@ package com.kleegroup.tagtrends.global;
 import java.net.UnknownHostException;
 
 import com.kleegroup.tagtrends.bayesclassifier.DebateClassifier;
-import com.kleegroup.tagtrends.tools.Hacker;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -184,53 +183,7 @@ public class Main {
 		analyzer.join();
 	}
 
-	/* whole cycles of collect and analysis */
-
-	public void countHashtagsSimultaneously() throws UnknownHostException,
-			InterruptedException {
-		int nombre_sessions = 3;
-
-		DBCollection collectionData = twitterDb.getCollection("provisory");
-		collectionData.remove(new BasicDBObject());
-		DBCollection collectionResults = twitterDb.getCollection("myFirstDB");
-		collectionResults.remove(new BasicDBObject());
-		analyzer = new Analyzer(AnalyzerMode.countHashtags, collectionData,
-				collectionResults);
-
-		for (int session = 0; session < nombre_sessions; session++) {
-			System.out.println("Début de la session " + (session + 1) + " sur "
-					+ nombre_sessions);
-			collecter = new TwitterCollecter(CollecterMode.filterLong,
-					primaryStocker, 4); // on récolte pendant 4 secondes
-			treatment = new Treatment(TreatmentMode.simpleTransfer,
-					primaryStocker, finalStocker);
-			collecter.start();
-			treatment.start();
-			collecter.join();
-			treatment.cancel();
-			treatment.join();
-			analyzer.join();
-			// on attend la fin de l'analyse de la session précédente
-			analyzer = new Analyzer(AnalyzerMode.countHashtags, collectionData,
-					collectionResults);
-			analyzer.start();
-			while (!analyzer.isReady()) {
-				Thread.sleep(100);
-				// on attend que l'analyzer pose un curseur sur la session qui
-				// vient de se dérouler
-			}
-			analyzer.setNotReady();
-		}
-		analyzer.join();
-		DBCursor cursor = collectionResults.find()
-				.sort(new BasicDBObject("total", -1)).limit(10);
-		System.out.println("\nHashtags globalement les plus fréquents :");
-		while (cursor.hasNext()) {
-			System.out.println(cursor.next());
-		}
-
-	}
-
+	
 	public void testFilterLong() throws UnknownHostException,
 			InterruptedException {
 		collecter = new TwitterCollecter(CollecterMode.filterLong,

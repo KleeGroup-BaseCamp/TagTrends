@@ -24,14 +24,20 @@
      <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="row">
         	<div class="navbar-header col-md-offset-1 col-md-3">
-        		<span class="navbar-brand" >TagTrends Project</span>
+        		<span class="navbar-brand" style="cursor: pointer" onclick="displayTheTagTrendsProject()">TagTrends Project</span>
         	</div>
         	<div class="collapse navbar-collapse col-md-4">
           		<ul class="nav navbar-nav">
             		<li><a style="cursor: pointer" onclick="displayGraphic()" >Visualize</a></li>
             		<li><a style="cursor: pointer" onclick="displayLearning()" >New learning</a></li>
             		<li><a style="cursor: pointer" onclick="displayCollect()" >New collect</a></li>
-            		<li><a style="cursor: pointer" onclick="displayAbout()" >About</a></li>
+            		<li class="dropdown">
+                		<a style="cursor: pointer" class="dropdown-toggle" data-toggle="dropdown">About<b class="caret"></b></a>
+               			<ul class="dropdown-menu">
+                  			<li><a style="cursor: pointer" onclick="displayFunctionnalities()">Functionnalities</a></li>
+                  			<li><a style="cursor: pointer" onclick="displayTechnologies()">Technologies</a></li>
+                		</ul>
+              		</li>
          		 </ul>
        		</div><!--/.nav-collapse -->
         	<div class="col-md-offset-2 col-md-2 row">
@@ -43,10 +49,12 @@
     </div>
    
 	
-	<div class='content' id='aboutContainer'></div>
+	<div class='content about' id='theTagTrendsProjectContainer'></div>
+	<div class='content about' id='functionnalitiesContainer'></div>
+	<div class='content about' id='technologiesContainer'></div>
 	
 	<div class='content' id='graphicContainer'>
-  		<div id='collectionTitle'></div>
+  		<div id='collectionTitle' class='title'></div>
     	<div id='graphContainer' class='row' ></div>
 		<div id='error'></div>
 	</div>

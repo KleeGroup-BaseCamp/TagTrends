@@ -1,11 +1,11 @@
  function launchCollectRequest(length, name){
 	 	serverWaitingIcon();
-    	makeCollectRequest('../myResourceCollect', {requestType: "POST", data: "length="+length+"&collection="+name, success: "collectData", timeout: 15000});
+    	makeCollectRequest('../myResourceCollect', {requestType: "POST", data: "length="+length+"&collection="+name, success: "collectData", timeout: length*2});
     }
  
  function launchAnalysisRequest(name){
 	 	serverWaitingIcon();
- 		makeCollectRequest('../myResourceAnalysis', {requestType: "POST", data: "collection="+name, success: "analyzeData", timeout: 8000});
+ 		makeCollectRequest('../myResourceAnalysis', {requestType: "POST", data: "collection="+name, success: "analyzeData", timeout: collectLength*2});
 	}
  
 function makeCollectRequest(url, options) {

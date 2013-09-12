@@ -52,8 +52,10 @@ function drawGraph(dataToDraw, container){
 	    _.extend(info, { hashtag: data['hashtag'], total: data['total']});
 	    
 		/*Create the graph environement.*/
-	    $('div#hiddenCloudContainer').append('<div id="cloudContainer'+info.hashtag+'"></div>');
-	    $('div#hiddenStatsContainer').append('<div id="statsContainer'+info.hashtag+'"></div>');
+	    $('div#hiddenCloudContainer:not(:has(div#cloudContainer'+info.hashtag+'))').prepend('<div id="cloudContainer'+info.hashtag+'"></div>');
+	    $('div#hiddenStatsContainer:not(:has(div#statsContainer'+info.hashtag+'))').prepend('<div id="statsContainer'+info.hashtag+'"></div>');
+		   
+	    
 	  if(k%2 == 0){
 	    $(container).append(
 	    		'<div class="col-md-4 panel panel-primary"> \

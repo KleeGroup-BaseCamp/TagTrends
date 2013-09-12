@@ -22,7 +22,6 @@ public class Analyzer extends Thread {
 	private AnalyzerMode currentMode;
 	private DBCollection dbCollection;
 	private DBCollection dbCollectionBis;
-	private boolean ready;
 	static LinkedList<String> goodDico;
 	static LinkedList<String> badDico;
 	static LinkedList<String> negationDico;
@@ -38,14 +37,12 @@ public class Analyzer extends Thread {
 		this.currentMode = currentMode;
 		this.dbCollection = dbCollection;
 		this.dbCollectionBis = dbCollectionBis;
-		this.ready = false;
 		try {
 			Hacker hacker = new Hacker();
 			goodDico = hacker.hackDico("good");
 			badDico = hacker.hackDico("bad");
 			negationDico = hacker.hackDico("negation");
 			genericHashtags = hacker.hackHashtagsNoBlanks("genericHashtags");
-			System.out.println(genericHashtags);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -64,17 +61,7 @@ public class Analyzer extends Thread {
 			break;
 		}
 	}
-	
-	public boolean isReady(){
-		return ready;
-	}
-	
-	public void setNotReady() {
-		ready = false;
-	}
 		
-	
-
 	public DBCollection simpleCopy(int n) {
 		DBCursor cursor;
 		if (n>0) { cursor = dbCollection.find().limit(n);}
@@ -183,8 +170,8 @@ public class Analyzer extends Thread {
 				/* increment fields for the hashtag in the cloudUpdater hashmap */
 				incrementCloud(cloudUpdater, (String) o.get("text"));
 			}
-			dbCollection.update(new BasicDBObject("hashtag", hashtag), new BasicDBObject("$set", cloudUpdater.mongoQuery()));
-		};
+			dbCollection.update(new BasicDBObject("hashtag", hashtag), new BasicDBObject("$set", cloudUpdater.mongoQuery()), true, false);
+		}
 	}
 	
 	public void incrementCloud(CloudUpdater cloudUpdater, String text) throws Exception{

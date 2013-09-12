@@ -18,9 +18,13 @@ body {
     padding-top: 20px;
 }
 
-h2, h6 { 
+h1, h2, h3, h4, h5, h6 { 
 font-weight: bold; 
  text-align: center;
+ }
+ 
+ p{
+ margin: 15 px;
  }
  
 
@@ -37,10 +41,10 @@ div#cloudContainer{
 div#graphicContainer, div.message{
 	margin: 20px;
 }
-div#collectionTitle{
+h1.title{
 	margin-bottom: 40px;
 }
-div#graphicContainer{
+div#graphicContainer, div.about{
 	padding-top: 30px;
 }
 
@@ -69,5 +73,11 @@ div#graphicContainer{
  div#requestStatusIcon, div#serverStatusIcon{
  	padding-top: 8px;
  	padding-bottom: 8px;
+ }
+ 
+ div.about{
+ width: 60%;
+  margin-left: auto;
+  margin-right: auto;
  }
  

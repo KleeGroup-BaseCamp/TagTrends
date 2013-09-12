@@ -2,7 +2,7 @@
 	 	serverWaitingIcon();
     	console.log('button', button);
     	var htag = button.id.substr(11);
-    	makeGraphicRequest('../myResourceCloud', {requestType: "POST", data: "hashtag="+htag+"&collection="+collectionName, hashtag: htag, success: "cloud"});
+    	makeGraphicRequest('../myResourceCloud', {requestType: "POST", data: "hashtag="+htag+"&collection="+collectionName, hashtag: htag, success: "cloud", timeout: 8000});
     }
  
  function statsRequest(button){
@@ -38,6 +38,7 @@ function makeGraphicRequest(url, options) {
     function launchGraphicSuccessAction(response, success, hashtag){
     	if (success == "graph") { 
     		$('div#graphContainer').empty();
+    		$('div#hiddenGraphContainer').empty();
     		drawGraph(response, 'div#graphContainer');
     	} else if (success == "cloud") { 
     		$('div#cloudContainer'+hashtag).empty();

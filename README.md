@@ -6,7 +6,7 @@
 
 Cette application exploite l'API proposée par Twitter. Elle donne accès aux résultats obtenus par l'analyse de tweets récents, et vous permet de décrypter l'actualité sur un mode visuel.  
 
-Vous trouverez dans le Wiki une description des **fonctionnalités** offertes ainsi que la liste des **technologies** utilisées.   
+Vous trouverez dans le [Wiki](https://github.com/KleeGroup/TagTrends/wiki "Voir le Wiki") une description des **fonctionnalités** offertes ainsi que la liste des **technologies** utilisées.   
 
 LICENCE  LGPL
 

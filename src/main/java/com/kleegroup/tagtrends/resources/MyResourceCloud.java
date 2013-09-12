@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import com.kleegroup.tagtrends.global.Analyzer;
 import com.kleegroup.tagtrends.global.AnalyzerMode;
 import com.kleegroup.tagtrends.global.Database;
+import com.kleegroup.tagtrends.global.FinalStocker;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -30,10 +31,17 @@ public class MyResourceCloud {
 				dbCollection);
 		analyzer.analyzeCloud(hashtag);
 		BasicDBObject fieldsToTake = new BasicDBObject("cloud", 1);
+		fieldsToTake.append("_id", 0);
 		BasicDBObject cloud = (BasicDBObject) dbCollection.findOne(
 				new BasicDBObject("hashtag", hashtag), fieldsToTake);
+		
 		System.out.println("hashtag : "+hashtag);
 		System.out.println("cloud : "+cloud);
 		return cloud.get("cloud").toString();
+	}
+	
+	public static void main(String[] args) throws Exception {
+		MyResourceCloud mrc = new MyResourceCloud();
+		System.out.println(mrc.cloudReader("androidgames", "test"));
 	}
 }
