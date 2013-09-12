@@ -19,8 +19,7 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		init();
 		try {
-			FinalStocker fs = new FinalStocker(twitterDb, "test");
-			fs.startDB();
+			runCollecter(CollecterMode.filterFriends, 5.);
 		} finally {
 			tearsDown();
 		}
@@ -41,6 +40,12 @@ public class Main {
 		twitterDb.getCollection(collectionName));
 		analyzer.start();
 		analyzer.join();
+	}
+	
+	public static void runCollecter(CollecterMode mode, double secondsDuration) throws InterruptedException {
+		TwitterCollecter twitterCollecter = new TwitterCollecter(mode, new PrimaryStocker(),secondsDuration);
+		twitterCollecter.start();
+		twitterCollecter.join();
 	}
 	
 	public static void countDebate(String collectionName, String hashtag, String topic) throws Exception{
@@ -82,20 +87,6 @@ public class Main {
 		System.out.println(collecter);
 	}
 
-	public void manualFilter() throws UnknownHostException,
-			InterruptedException {
-		collecter = new TwitterCollecter(CollecterMode.filterLong,
-				primaryStocker, 0.5);
-		treatment = new Treatment(TreatmentMode.filterAndTransfer,
-				primaryStocker, finalStocker);
-		collecter.start();
-		treatment.start();
-		collecter.join();
-		treatment.cancel();
-		treatment.join();
-		System.out.println(collecter);
-	}
-
 	public void entireChain() throws UnknownHostException,
 			InterruptedException {
 		collecter = new TwitterCollecter(CollecterMode.filterLong,
@@ -112,38 +103,6 @@ public class Main {
 
 		finalStocker.printCollection();
 		System.out.println(finalStocker.findOne());
-	}
-
-	public void upsert() throws UnknownHostException {
-		collecter = new TwitterCollecter(CollecterMode.stockLast,
-				primaryStocker, 0.5);
-		treatment = new Treatment(TreatmentMode.simpleTransfer, primaryStocker,
-				finalStocker);
-		// obligatoire pour ne pas échouer à "tearsDown"
-
-		DBCollection collectionUpsert = twitterDb.getCollection("myMiniDB");
-		collectionUpsert.remove(new BasicDBObject());
-		collectionUpsert.update(new BasicDBObject("name", "leo"),
-				new BasicDBObject("$inc", new BasicDBObject("age", 1)), true,
-				false);
-
-		DBCursor cursor = collectionUpsert.find().limit(1);
-		while (cursor.hasNext()) {
-			System.out.println(cursor.next());
-		}
-		collectionUpsert.update(new BasicDBObject("name", "leo"),
-				new BasicDBObject("$inc", new BasicDBObject("age", 1)), true,
-				false);
-		collectionUpsert.update(new BasicDBObject("name", "leo"),
-				new BasicDBObject("$inc", new BasicDBObject("age", 1)), true,
-				false);
-		collectionUpsert.update(new BasicDBObject("name", "leo"),
-				new BasicDBObject("$inc", new BasicDBObject("age", 1)), true,
-				false);
-		cursor = collectionUpsert.find();
-		while (cursor.hasNext()) {
-			System.out.println(cursor.next());
-		}
 	}
 
 	public void countWords() throws UnknownHostException,

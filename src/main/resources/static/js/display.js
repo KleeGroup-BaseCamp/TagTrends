@@ -41,7 +41,12 @@ function displayTechnologies(){
 var theTagTrendsProjectText = "<h1 class='title'>TagTrends : Analyse du r&eacuteseau Twitter</h1>\
 <p>L'objectif de ce projet est de parvenir &agrave extraire des informations sur l'actualit&eacute &agrave partir de flux collect&eacutes sur internet. En partant du concept de <b>#tag</b>, on parvient &agrave isoler les th&egravemes d'int&eacuter&ecirct.</p>\
 <p>Cette application exploite l\'API propos&eacutee par Twitter. Elle donne acc&egraves aux r&eacutesultats obtenus par l\'analyse de tweets r&eacutecents, et vous permet de d&eacutecrypter l\'actualit&eacute sur un mode visuel.</p>\
-<p>Vous trouverez dans l'onglet <i>About</i> une description des <b>fonctionnalit&eacutes</b> offertes ainsi que la liste des <b>technologies</b> utilis&eacutees.</p>";
+<p>Vous trouverez dans l'onglet <i>About</i> une description des <b>fonctionnalit&eacutes</b> offertes ainsi que la liste des <b>technologies</b> utilis&eacutees.</p>"+
+"<div class='row'>\
+  <img src='img/mongo.jpg' alt='mongodb'><img src='img/twitter.jpg' alt='twitter'>\
+  <img src='img/grizzlyHead.png' alt='grizzly'><img src='img/jerseyjava.jpg' alt='jerseyJava'>\
+  <img src='img/ajax.jpg' alt='ajax'><img src='img/d3js.jpg' alt='d3js'><img src='img/javascript.jpg' alt='javascript'>\
+</div>";
 
 var technologiesText = "<h1 class='title'>Les technologies utilis&eacutees</h1>\
 <h4>Recueil et analyse des donn&eacutees</h4>\

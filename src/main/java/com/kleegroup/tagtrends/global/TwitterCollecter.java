@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import twitter4j.FilterQuery;
+import twitter4j.IDs;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -40,8 +41,6 @@ public class TwitterCollecter extends Thread {
 		TwitterStream twitterStream;
 		switch (currentMode) {
 		case stockLast:
-//			while (!isInterrupted()
-//					&& (System.currentTimeMillis() - start) < (timeLimit * 1000)) {
 				try {
 					try {
 						counter.set(0);
@@ -55,7 +54,6 @@ public class TwitterCollecter extends Thread {
 					e.printStackTrace();
 					break;
 				}
-		//	}
 			break;
 		case filterLong:
 			twitterStream = filterText();
@@ -68,6 +66,19 @@ public class TwitterCollecter extends Thread {
 			listenTwitter();
 			twitterStream.shutdown();
 			break;
+		case filterFriends:
+			try {
+				counter.set(0);
+				twitterStream = filterFriends();
+				listenTwitter();
+				twitterStream.shutdown();
+				break;
+			} catch (TwitterException e) {
+				System.err.println(this
+						+ " : Erreur de connexion à Twitter.");
+				e.printStackTrace();
+				break;
+			}
 		}
 		System.out.println(this);
 	}
@@ -82,7 +93,9 @@ public class TwitterCollecter extends Thread {
 		} while(timeLimit < 0 && !isInterrupted());
 	}
 
-	/* get big but random stream of tweets */
+	/* 
+	 * get large but random stream of tweets (beware: strange languages...) 
+	 */
 	private TwitterStream sampleLong() {
 		Listener listener = new Listener() {
 			public void onStatus(Status status) {
@@ -106,9 +119,12 @@ public class TwitterCollecter extends Thread {
 		return twitterStream;
 	}
 
+	/* 
+	 * filter according to the language and to an array of words
+	 * (can not choose a language without giving an array of words)
+	 */
 	private TwitterStream filterText() {
 		TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
-		//System.out.println("!!! JE COMMENCE UNE NOUVELLE COLLECTE !!!");
 		// Listener
 		Listener listener = new Listener() {
 			public void onStatus(Status status) {
@@ -125,13 +141,35 @@ public class TwitterCollecter extends Thread {
 		// Filter
 		FilterQuery filtre = new FilterQuery();
 		filtre.language(new String[] { "fr" });
-		// filtre.locations(new double[][] {{-180,-90},{180,90}});
 		filtre.track(toFilter);
 		twitterStream.filter(filtre);
 		return twitterStream;
 	}
+	
+	/* 
+	 * filter according to an array of users' IDs
+	 */
+	private TwitterStream filterFriends() throws TwitterException {
+		long[] followArray = getFriendsIds();
+		TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
+		// Listener
+		Listener listener = new Listener() {
+			public void onStatus(Status status) {
+				counter.getAndIncrement();
+				String j = twitter4j.json.DataObjectFactory.getRawJSON(status);
+				System.out.println(j);
+			}
+		};
+		twitterStream.addListener(listener);
+		// Filter
+        // filter() method internally creates a thread which manipulates TwitterStream and calls these adequate listener methods continuously.
+        twitterStream.filter(new FilterQuery(0, followArray, new String[] {"et","le","la"}));
+		return twitterStream;
+	}
 
-	/* get last tweets edited on your homeTimeLine */
+	/* 
+	 * get last tweets edited on your homeTimeLine 
+	 */
 	private void stockLast() throws InterruptedException, TwitterException {
 		Twitter twitter = TwitterFactory.getSingleton();
 		List<Status> statuses = twitter.getHomeTimeline();
@@ -142,6 +180,25 @@ public class TwitterCollecter extends Thread {
 		}
 	}
 
+	
+	/* 
+	 * get an array of the friends' IDs of the authenticated user 
+	 */
+	private static long[] getFriendsIds() throws TwitterException{
+	       	Twitter twitter = new TwitterFactory().getInstance();
+        	long cursor = -1;
+            IDs ids;
+            System.out.println("Listing following ids.");
+            do {
+                ids = twitter.getFriendsIDs(cursor);
+                for (long id : ids.getIDs()) {
+                    System.out.println(id);
+                }
+            } while ((cursor = ids.getNextCursor()) != 0);
+           return ids.getIDs();
+	}
+	
+	
 	public String toString() {
 		return "la queue contient " + getStock() + " éléments.";
 	}
@@ -154,5 +211,7 @@ public class TwitterCollecter extends Thread {
 		primaryStocker.store(json);
 	}
 	
+	
+	    	
 	 
 }

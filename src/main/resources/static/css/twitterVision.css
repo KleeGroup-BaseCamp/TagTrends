@@ -81,3 +81,8 @@ div#graphicContainer, div.about{
   margin-right: auto;
  }
  
+ div.thumbnail{
+ width: 360px;
+ height: 360px;
+ }
+ 
