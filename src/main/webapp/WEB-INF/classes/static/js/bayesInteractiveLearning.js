@@ -28,7 +28,7 @@ function initializeLearningVariables(){
 		  	showLearningLengthDialog();
 	  	} else { 
 		  	learningLength = result;
-          	makeLearningRequest('../myResourceLearning', {requestType: "POST", data: "length="+learningLength, topic: learningTopic, success: "getDataToLearn"});
+          	makeLearningRequest('../myResourceLearning', {requestType: "POST", data: "length="+learningLength+"&collection="+collectionName, topic: learningTopic, success: "getDataToLearn"});
 	  	}                
 	  });}
   
@@ -55,7 +55,7 @@ function initializeLearningVariables(){
 		    	  _.extend(textsToLearn[i], {"opinion" : "for"});
 		    	  effectivelyLearnt++;
 		    	  if (i==0){
-					  displayEndMessage(effectivelyLearnt);
+		    		  displayLearningEndMessage(effectivelyLearnt);
 				  }
 		      }
 		    },
@@ -66,7 +66,7 @@ function initializeLearningVariables(){
 		    	  _.extend(textsToLearn[i], {"opinion" : "against"});
 		    	  effectivelyLearnt++;
 		    	  if (i==0){
-					  displayMessage(effectivelyLearnt);
+					  displayLearningEndMessage(effectivelyLearnt);
 				  }
 		      }
 		    },
@@ -76,7 +76,7 @@ function initializeLearningVariables(){
 		      callback: function() {
 		         // do nothing
 		    	  if (i==0){
-					  displayEndMessage(effectivelyLearnt);
+		    		  displayLearningEndMessage(effectivelyLearnt);
 				  }
 		      }
 		    }
@@ -84,8 +84,10 @@ function initializeLearningVariables(){
 		});
   }
   
-	  function displayEndMessage(numberOfClassifiedTexts){
-		  $('div.message').html("Your "+numberOfClassifiedTexts+" categorizations have been taken into account. You can now go to the 'Visualization' page and see the results in the 'Stats' popover.");
+	  function displayLearningEndMessage(numberOfClassifiedTexts){
+		  bootbox.alert("Your "+numberOfClassifiedTexts+" categorizations have been taken into account. You can now see the results in the 'Stats' popover.", displayGraphic());
+			
+		  //$('div.message').html("Your "+numberOfClassifiedTexts+" categorizations have been taken into account. You can now go to the 'Visualization' page and see the results in the 'Stats' popover.");
 	  }
   
   

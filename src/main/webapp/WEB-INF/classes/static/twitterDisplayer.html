@@ -24,16 +24,17 @@
      <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="row">
         	<div class="navbar-header col-md-offset-1 col-md-3">
-        		<span class="navbar-brand" >Twitter Mongo Project</span>
+        		<span class="navbar-brand" >TagTrends Project</span>
         	</div>
-        	<div class="collapse navbar-collapse col-md-3">
+        	<div class="collapse navbar-collapse col-md-4">
           		<ul class="nav navbar-nav">
             		<li><a style="cursor: pointer" onclick="displayGraphic()" >Visualize</a></li>
             		<li><a style="cursor: pointer" onclick="displayLearning()" >New learning</a></li>
+            		<li><a style="cursor: pointer" onclick="displayCollect()" >New collect</a></li>
             		<li><a style="cursor: pointer" onclick="displayAbout()" >About</a></li>
          		 </ul>
        		</div><!--/.nav-collapse -->
-        	<div class="col-md-offset-3 col-md-2 row">
+        	<div class="col-md-offset-2 col-md-2 row">
         		<div class="col-md-offset-5 col-md-3" id="requestStatusIcon"></div>
         		<div class="col-md-offset-1 col-md-3" id="serverStatusIcon"></div>
         	</div>
@@ -42,26 +43,16 @@
     </div>
    
 	
-    
-  
-    <div class='content' id='graphContainer' class='row' >
-    	<!-- <div id="launchGraphicButton">
-			<p><a class="btn btn-lg btn-primary" onclick="makeGraphicRequest('../myResourceGraph', {requestType: 'GET', success: 'graph'})">Visualization</a></p>
-		</div>-->
+	<div class='content' id='aboutContainer'></div>
+	
+	<div class='content' id='graphicContainer'>
+  		<div id='collectionTitle'></div>
+    	<div id='graphContainer' class='row' ></div>
 		<div id='error'></div>
-		
 	</div>
-	<div class='content' id='learningContainer' class='row' >
-		<div id="launchLearningButton">
-			<p><a class="btn btn-lg btn-primary" onclick="showLearningTopicDialog()">New learning</a></p>
-		</div>
-		<div class='message'></div>
-	</div>
-	<div class='content' id='aboutContainer' class='row' >
-	</div>
-  
 	<div id='hiddenCloudContainer'></div>
     <div id='hiddenStatsContainer'></div>
+    
     </div> <!-- /container -->
 
 
@@ -76,13 +67,16 @@
   	<script src="js/statusIcons.js"></script>
   	<script src="js/graphicAjaxRequest.js"></script>
   	<script src="js/learningAjaxRequest.js"></script>
+  	<script src="js/collectAjaxRequest.js"></script>
   	<script src="js/bayesInteractiveLearning.js"></script>
+  	<script src="js/interactiveCollect.js"></script>
   	 <script src="js/bootbox.min.js"></script>
   	  <script src="js/display.js"></script>
   	<script type="text/javascript">
   	
   	/* initialize global variables */
   	initializeLearningVariables();
+  	initializeCollectionVariables();
   	
   	/* initialize screen content */
   		$('div.content').hide();

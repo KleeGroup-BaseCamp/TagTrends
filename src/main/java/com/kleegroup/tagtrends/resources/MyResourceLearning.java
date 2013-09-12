@@ -22,14 +22,14 @@ public class MyResourceLearning {
 	
 	@POST // The Java method will process HTTP POST requests 
     @Produces("text/plain") // produce content identified by the MIME Media type "text/plain"
-    public String getTweetTextsToLearn(@FormParam("length") int learningLength) throws Exception {
-    	return tweetTextsToLearnReader(learningLength);
+    public String getTweetTextsToLearn(@FormParam("length") int learningLength, @FormParam("collection") String collectionName) throws Exception {
+    	return tweetTextsToLearnReader(learningLength, collectionName);
     }
     
-	public String tweetTextsToLearnReader(int learningLength) throws Exception {
+	public String tweetTextsToLearnReader(int learningLength, String collectionName) throws Exception {
 		Hacker hacker = new Hacker();
 		DB twitterDb = Database.getDB();
-		DBCollection dbCollection = twitterDb.getCollection("oneNightNoFilterData");
+		DBCollection dbCollection = twitterDb.getCollection(collectionName);
 		BasicDBObject fieldsToTake = new BasicDBObject("text", 1);
 		fieldsToTake.append("_id", 0); // field to leave ( otherwise it will come ... )
 		DBCursor tweetTexts = dbCollection.find(
@@ -47,7 +47,7 @@ public class MyResourceLearning {
 	
 	 public static void main(String[] args) throws Exception {
 		 MyResourceLearning mrl = new MyResourceLearning();
-		System.out.println(mrl.tweetTextsToLearnReader(15));
+		System.out.println(mrl.tweetTextsToLearnReader(15, "exampleData"));
 				
 	 }
 }

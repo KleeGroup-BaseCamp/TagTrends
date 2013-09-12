@@ -23,14 +23,14 @@ public class MyResourceStats {
 	
 	@POST // The Java method will process HTTP POST requests 
     @Produces("text/plain") // produce content identified by the MIME Media type "text/plain"
-    public String getStats(@FormParam("topic") String topic, @FormParam("hashtag") String hashtag,@DefaultValue("null") @FormParam("learntData") String learntData) throws Exception {
-    	return statsReader(topic, hashtag, learntData);
+    public String getStats(@FormParam("topic") String topic, @FormParam("hashtag") String hashtag,@DefaultValue("null") @FormParam("learntData") String learntData, @FormParam("collection") String collectionName) throws Exception {
+    	return statsReader(topic, hashtag, learntData, collectionName);
     }
     
 	
-	public String statsReader(String topic, String hashtag, String learntData) throws Exception {
+	public String statsReader(String topic, String hashtag, String learntData, String collectionName) throws Exception {
 		DB twitterDb = Database.getDB();
-		DBCollection dbCollection = twitterDb.getCollection("oneNightNoFilterData");
+		DBCollection dbCollection = twitterDb.getCollection(collectionName);
 		Analyzer analyzer = new Analyzer(AnalyzerMode.countHashtags,
 				dbCollection);
 		if (learntData != null && !topic.equals("No topic yet")){
@@ -48,7 +48,7 @@ public class MyResourceStats {
 			System.out.println("debate : " + debate);
 			return debate.toString();
 		} else {
-			BasicDBObject nothingToDraw = new BasicDBObject("topic", "No topic yet");
+			BasicDBObject nothingToDraw = new BasicDBObject("topic", "No trend topic yet. Choose 'New learning' to review a trend.");
 			return nothingToDraw.append("debate", null).toString();
 		}
 	}
@@ -63,7 +63,7 @@ public class MyResourceStats {
 			o.put("opinion", opinions[i]);
 			data.put(o);
 		}
-		System.out.println((new MyResourceStats()).getStats("interventionSyrie", "Syrie", data.toString()));
+		System.out.println((new MyResourceStats()).getStats("interventionSyrie", "Syrie", data.toString(), "exampleData"));
 
 	}
 

@@ -60,17 +60,18 @@ public class Treatment extends Thread {
 		cancelled = true;
 	}
 	
+	/* only takes useful fields */
 	public void simpleTransfer() throws InterruptedException  {
 		while (getStock()!=0) {
 			String json = load();
 			DBObject dbObject = (DBObject) JSON.parse(json);
 			if (dbObject!=null){
 				BasicDBObject lightTweet = new BasicDBObject();
-				lightTweet.append("created_at", getDate(dbObject)); // Date object
+				lightTweet.append("created_at", getDate(dbObject)); // Date object on which the automatic deletion is based
 				lightTweet.append("date", getDate(dbObject).getTime()); // long representing the `created_at` in ms since 1970
 				lightTweet.append("text", dbObject.get("text"));
 				lightTweet.append("entities", dbObject.get("entities"));
-				System.out.println(lightTweet);
+				//System.out.println(lightTweet);
 				finalStocker.insert(lightTweet);
 			}			
 		} 

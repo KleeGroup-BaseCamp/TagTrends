@@ -10,13 +10,10 @@ import twitter4j.TwitterFactory;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 
-//String[] toFilter = new String[] {"la","le","les","des","un","une","au","aux","en","avec","pour","de","sans","à"};
-		//String[] toFilter = new String[] {"retraite"};
-		
 public class TwitterCollecter extends Thread {
 	private AtomicInteger counter = new AtomicInteger(0);
 	private final PrimaryStocker primaryStocker;
-	//private boolean cancelled;
+	/* time of the collect (seconds) */
 	private double timeLimit;
 	private String[] toFilter;
 	private CollecterMode currentMode;
@@ -85,6 +82,7 @@ public class TwitterCollecter extends Thread {
 		} while(timeLimit < 0 && !isInterrupted());
 	}
 
+	/* get big but random stream of tweets */
 	private TwitterStream sampleLong() {
 		Listener listener = new Listener() {
 			public void onStatus(Status status) {
@@ -133,6 +131,7 @@ public class TwitterCollecter extends Thread {
 		return twitterStream;
 	}
 
+	/* get last tweets edited on your homeTimeLine */
 	private void stockLast() throws InterruptedException, TwitterException {
 		Twitter twitter = TwitterFactory.getSingleton();
 		List<Status> statuses = twitter.getHomeTimeline();

@@ -138,7 +138,7 @@ public class Hacker {
 	 */
 	public BufferedReader docReader(String doc) throws FileNotFoundException{
 		return new BufferedReader(new FileReader(
-				"C:/Users/cguinard/workspace/Tweeter/src/" + doc + ".txt"));
+				"C:/Users/cguinard/workspace/Tweeter/src/main/resources/" + doc + ".txt"));
 	}
 	
 	/* 

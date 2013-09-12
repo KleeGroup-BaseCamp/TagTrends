@@ -2,16 +2,14 @@
 	 	serverWaitingIcon();
     	console.log('button', button);
     	var htag = button.id.substr(11);
-    	serverWaitingIcon();
-    	makeGraphicRequest('../myResourceCloud', {requestType: "POST", data: "hashtag="+htag, hashtag: htag, success: "cloud"});
+    	makeGraphicRequest('../myResourceCloud', {requestType: "POST", data: "hashtag="+htag+"&collection="+collectionName, hashtag: htag, success: "cloud"});
     }
  
  function statsRequest(button){
 	 serverWaitingIcon();
  	console.log('button', button);
  	var htag = button.id.substr(11);
- 	serverWaitingIcon();
- 	makeGraphicRequest('../myResourceStats', {requestType: "POST", data: "hashtag="+htag+"&learntData="+JSON.stringify(textsToLearn)+"&topic="+learningTopic, hashtag: htag, success: "stats", timeout: 8000});
+ 	makeGraphicRequest('../myResourceStats', {requestType: "POST", data: "hashtag="+htag+"&learntData="+JSON.stringify(textsToLearn)+"&topic="+learningTopic+"&collection="+collectionName, hashtag: htag, success: "stats", timeout: 8000});
  }
  
 function makeGraphicRequest(url, options) {

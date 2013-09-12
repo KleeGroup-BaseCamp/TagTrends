@@ -18,6 +18,12 @@ body {
     padding-top: 20px;
 }
 
+h2, h6 { 
+font-weight: bold; 
+ text-align: center;
+ }
+ 
+
 div#greatContainer{
 	margin-left: 40px ; 
 }
@@ -28,11 +34,14 @@ div#cloudContainer{
 	font-size: 2.0em; /* equiv 20px */
 }
 
-div#graphContainer, div.message{
+div#graphicContainer, div.message{
 	margin: 20px;
 }
-div#graphContainer{
-	padding-top: 120px;
+div#collectionTitle{
+	margin-bottom: 40px;
+}
+div#graphicContainer{
+	padding-top: 30px;
 }
 
 .domain {
@@ -42,10 +51,6 @@ div#graphContainer{
 
  div#hiddenCloudContainer, div#hiddenStatsContainer{
  	visibility: hidden;
- }
- 
-div#launchGraphicButton, div#launchLearningButton {
- 	margin: 10px;
  }
  
  div.panel{

@@ -19,13 +19,13 @@ public class MyResourceCloud {
 	
 	@POST // The Java method will process HTTP POST requests 
     @Produces("text/plain") // produce content identified by the MIME Media type "text/plain"
-    public String getCloud(@FormParam("hashtag") String hashtag) throws Exception {
-    	return cloudReader(hashtag);
+    public String getCloud(@FormParam("hashtag") String hashtag, @FormParam("collection") String collectionName) throws Exception {
+    	return cloudReader(hashtag, collectionName);
     }
     
-	public String cloudReader(String hashtag) throws Exception {
+	public String cloudReader(String hashtag, String collectionName) throws Exception {
 		DB twitterDb = Database.getDB();
-		DBCollection dbCollection = twitterDb.getCollection("oneNightNoFilterData");
+		DBCollection dbCollection = twitterDb.getCollection(collectionName);
 		Analyzer analyzer = new Analyzer(AnalyzerMode.countHashtags,
 				dbCollection);
 		analyzer.analyzeCloud(hashtag);
@@ -36,9 +36,4 @@ public class MyResourceCloud {
 		System.out.println("cloud : "+cloud);
 		return cloud.get("cloud").toString();
 	}
-	
-	 public static void main(String[] args) throws Exception {
-		
-				
-	 }
 }

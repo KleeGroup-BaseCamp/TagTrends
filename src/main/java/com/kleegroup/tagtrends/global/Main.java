@@ -1,6 +1,5 @@
 package com.kleegroup.tagtrends.global;
 import java.net.UnknownHostException;
-import java.util.Date;
 
 import com.kleegroup.tagtrends.bayesclassifier.DebateClassifier;
 import com.kleegroup.tagtrends.tools.Hacker;
@@ -21,12 +20,8 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		init();
 		try {
-			FinalStocker fs = new FinalStocker(twitterDb, "TTLEssay");
+			FinalStocker fs = new FinalStocker(twitterDb, "test");
 			fs.startDB();
-		
-
-
-			
 		} finally {
 			tearsDown();
 		}

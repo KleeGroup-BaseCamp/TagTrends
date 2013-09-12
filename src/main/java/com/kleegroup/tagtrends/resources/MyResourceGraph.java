@@ -1,7 +1,8 @@
 package com.kleegroup.tagtrends.resources;
 import java.net.UnknownHostException;
 
-import javax.ws.rs.GET;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
@@ -17,17 +18,17 @@ import com.mongodb.DBCursor;
 public class MyResourceGraph {
 	
     // The Java method will process HTTP GET requests
-    @GET 
+    @POST
     // The Java method will produce content identified by the MIME Media
     // type "text/plain"
      @Produces("text/plain")
-    public String getData() throws UnknownHostException {
-    	return tweetReader();
+    public String getData(@FormParam("collection") String collectionName) throws UnknownHostException {
+    	return tweetReader(collectionName);
     }
     
-     public String tweetReader() throws UnknownHostException{
+     public String tweetReader(String collectionName) throws UnknownHostException{
 			DB twitterDb = Database.getDB();
-			DBCollection collectionToRead = twitterDb.getCollection("oneNightNoFilterData");
+			DBCollection collectionToRead = twitterDb.getCollection(collectionName);
 			BasicDBObject fieldsToTake = new BasicDBObject("hashtag", 1);
 			fieldsToTake.put("total", 1);
 			fieldsToTake.put("info", 1);
@@ -39,6 +40,12 @@ public class MyResourceGraph {
 			return jsonBuilder.JSONArrayFromIterator();
 			
      }
+     
+     public static void main(String[] args) throws Exception {
+ 		MyResourceGraph mrg = new MyResourceGraph();
+ 		System.out.println(mrg.getData("exampleData"));
+ 	}
+     
     }
     
     

@@ -7,7 +7,7 @@ function drawGraph(dataToDraw, container){
     var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = 750 - margin.left - margin.right,
     height = 120 - margin.top - margin.bottom;
-    rectWidth = 3;
+    rectWidth = 5;
     var hourFormat =  d3.time.format("%H:%M");
     var dateFormat =  d3.time.format("%c");
     var parameters = {width: width, height: height, rectWidth: rectWidth};
@@ -54,13 +54,13 @@ function drawGraph(dataToDraw, container){
 		/*Create the graph environement.*/
 	    $('div#hiddenCloudContainer').append('<div id="cloudContainer'+info.hashtag+'"></div>');
 	    $('div#hiddenStatsContainer').append('<div id="statsContainer'+info.hashtag+'"></div>');
-	  
+	  if(k%2 == 0){
 	    $(container).append(
-	    		'<div class="col-md-9 panel panel-primary"> \
+	    		'<div class="col-md-4 panel panel-primary"> \
 	    			<div class="panel-heading"> \
 	    				<div class="row"> \
-	    					<div class="col-md-10"><span class="panel-title">#'+info.hashtag+' : '+info.total+'</span></div> \
-	    					<div class="col-md-2"> \
+	    					<div class="col-md-8"><span class="panel-title">#'+info.hashtag+' : '+info.total+'</span></div> \
+	    					<div class="col-md-4"> \
 	    						<button type="button" class="btn btn-default popoverButton" id="statsButton'+info.hashtag+'" onclick="statsRequest(this)"> \
 	    							<span class="glyphicon glyphicon-stats"></span> \
 	    						</button> \
@@ -72,6 +72,25 @@ function drawGraph(dataToDraw, container){
 	    			</div> \
 	    			<div class="panel-body oneGraph" id=graph'+info.hashtag+'></div> \
 	    		</div>');  
+	  } else {
+		  $(container).append(
+		    		'<div class="col-md-4 col-md-offset-3 panel panel-primary"> \
+		    			<div class="panel-heading"> \
+		    				<div class="row"> \
+		    					<div class="col-md-8"><span class="panel-title">#'+info.hashtag+' : '+info.total+'</span></div> \
+		    					<div class="col-md-4"> \
+		    						<button type="button" class="btn btn-default popoverButton" id="statsButton'+info.hashtag+'" onclick="statsRequest(this)"> \
+		    							<span class="glyphicon glyphicon-stats"></span> \
+		    						</button> \
+		    						<button type="button" class="btn btn-default popoverButton" id="cloudButton'+info.hashtag+'" onclick="cloudRequest(this)"> \
+		    							<span class="glyphicon glyphicon-cloud"></span> \
+		    						</button> \
+		    					</div> \
+		    				</div> \
+		    			</div> \
+		    			<div class="panel-body oneGraph" id=graph'+info.hashtag+'></div> \
+		    		</div>');  
+		  }
 	   
 		/* Draw the graph container */
 		var svg = d3.select('div#graph'+info.hashtag)
@@ -216,12 +235,3 @@ function drawGraph(dataToDraw, container){
 //	  
 //}
 
-//div.oneGraph {
-//	background-color: #f7f7f9;
-//	border: 1px solid #e1e1e8;
-//	margin: 5px;
-//	/*arrondir les coins*/
-//	-moz-border-radius: 10px;
-//	-webkit-border-radius: 10px;
-//	border-radius: 10px;
-//}
