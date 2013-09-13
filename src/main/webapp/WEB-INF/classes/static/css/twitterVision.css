@@ -86,3 +86,11 @@ div#graphicContainer, div.about{
  height: 360px;
  }
  
+ div.bar {
+background-color: #0e90d2;
+height: 20px;
+}
+  div.progress {
+height: 20px;
+margin: 30px;
+}

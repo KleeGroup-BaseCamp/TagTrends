@@ -18,8 +18,7 @@ import com.sun.jersey.api.container.grizzly2.GrizzlyServerFactory;
  */
 public class ServerRunner {
 	public static final URI BASE_URI = getBaseURI();
-	//public static final String PROTECTED_COLLECTION = "exampleData";
-	public static final String PROTECTED_COLLECTION = "--rien--";
+	public static final String PROTECTED_COLLECTION = "exampleData";
 
 	/**
 	 * Lancement du serveur Grizzly pour les WebServices.
