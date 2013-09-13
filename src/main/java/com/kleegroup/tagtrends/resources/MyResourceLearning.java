@@ -16,38 +16,37 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
-@Path("/myResourceLearning") // The Java class will be hosted at this URI path
+@Path("/myResourceLearning")
+// The Java class will be hosted at this URI path
 public class MyResourceLearning {
-	
-	
-	@POST // The Java method will process HTTP POST requests 
-    @Produces("text/plain") // produce content identified by the MIME Media type "text/plain"
-    public String getTweetTextsToLearn(@FormParam("length") int learningLength, @FormParam("collection") String collectionName) throws Exception {
-    	return tweetTextsToLearnReader(learningLength, collectionName);
-    }
-    
-	public String tweetTextsToLearnReader(int learningLength, String collectionName) throws Exception {
-		Hacker hacker = new Hacker();
-		DB twitterDb = Database.getDB();
-		DBCollection dbCollection = twitterDb.getCollection(collectionName);
-		BasicDBObject fieldsToTake = new BasicDBObject("text", 1);
+
+	@POST
+	// The Java method will process HTTP POST requests 
+	@Produces("text/plain")
+	// produce content identified by the MIME Media type "text/plain"
+	public String getTweetTextsToLearn(@FormParam("length") final int learningLength, @FormParam("collection") final String collectionName) throws Exception {
+		return tweetTextsToLearnReader(learningLength, collectionName);
+	}
+
+	public String tweetTextsToLearnReader(final int learningLength, final String collectionName) throws Exception {
+		final Hacker hacker = new Hacker();
+		final DB twitterDb = Database.getDB();
+		final DBCollection dbCollection = twitterDb.getCollection(collectionName);
+		final BasicDBObject fieldsToTake = new BasicDBObject("text", 1);
 		fieldsToTake.append("_id", 0); // field to leave ( otherwise it will come ... )
-		DBCursor tweetTexts = dbCollection.find(
-				new BasicDBObject("text", new BasicDBObject("$exists", true)),
-				fieldsToTake).limit(learningLength);
-		ArrayList<BasicDBObject> toLearn = new ArrayList<BasicDBObject>(
-				learningLength);
-		for (DBObject o : tweetTexts) {
+		final DBCursor tweetTexts = dbCollection.find(new BasicDBObject("text", new BasicDBObject("$exists", true)), fieldsToTake).limit(learningLength);
+		final ArrayList<BasicDBObject> toLearn = new ArrayList<BasicDBObject>(learningLength);
+		for (final DBObject o : tweetTexts) {
 			System.out.println("o : " + o);
-			toLearn.add(new BasicDBObject("text", hacker.clearPonctuation(((String) o.get("text")))));
+			toLearn.add(new BasicDBObject("text", hacker.clearPonctuation((String) o.get("text"))));
 		}
-		JSONBuilder jsonBuilder = new JSONBuilder(toLearn.iterator());
+		final JSONBuilder jsonBuilder = new JSONBuilder(toLearn.iterator());
 		return jsonBuilder.JSONArrayFromIterator();
 	}
-	
-	 public static void main(String[] args) throws Exception {
-		 MyResourceLearning mrl = new MyResourceLearning();
-		System.out.println(mrl.tweetTextsToLearnReader(15, "exampleData"));
-				
-	 }
+
+	//	 public static void main(String[] args) throws Exception {
+	//		 MyResourceLearning mrl = new MyResourceLearning();
+	//		System.out.println(mrl.tweetTextsToLearnReader(15, "exampleData"));
+	//				
+	//	 }
 }

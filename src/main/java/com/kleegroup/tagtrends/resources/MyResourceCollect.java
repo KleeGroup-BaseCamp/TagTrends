@@ -24,7 +24,7 @@ public class MyResourceCollect {
 
 	public int limitedCollect(final int durationOfCollect, final String collectionName) throws Exception {
 		removeEmptyCollections();
-		//if (!collectionName.equals("exampleData")){
+		//if (!collectionName.equals(ServerRunner.PROTECTED_COLLECTION)){
 		removePreviousAnalysis(collectionName);
 		CollectAndTreatment.launchCollectAndTreatment(collectionName, durationOfCollect);
 		//}
