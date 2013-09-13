@@ -46,9 +46,6 @@
         	</div>
         </div>  
     </div>
-  	<div class="progress progress-striped active">
-  		<div class="bar" style="width: 0;"></div>
-	</div>
 	
 	<div class='content about' id='theTagTrendsProjectContainer'></div>
 	<div class='content about' id='functionnalitiesContainer'></div>
@@ -93,14 +90,13 @@
   		
   		/* initialize progressBar behaviour */
   	$(document).on('ajaxStart',   function() { 
-  		NProgress.start();  
-  		NProgress.set(0.4);
+  		$('div.bar').width("20%");  
   		}).on('ajaxStop',   function() { 
-  			NProgress.done(); 
+  			$('div.bar').width("100%").delay(800).width(0); 
   		});
     </script>
   	
-    <!-- Placed at the end of the document so the pages load faster -->
+
     </div>
   </body>
 </html>
