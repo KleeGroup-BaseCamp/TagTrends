@@ -5,7 +5,7 @@
  
  function launchAnalysisRequest(name){
 	 	serverWaitingIcon();
- 		makeCollectRequest('../myResourceAnalysis', {requestType: "POST", data: "collection="+name, success: "analyzeData", timeout: collectLength*2});
+ 		makeCollectRequest('../myResourceAnalysis', {requestType: "POST", data: "collection="+name, success: "analyzeData", timeout: collectLength*20});
 	}
  
 function makeCollectRequest(url, options) {
@@ -17,6 +17,7 @@ function makeCollectRequest(url, options) {
             url: url, //generates the url used to call the web service
             dataType: 'json',
             data: options.data,
+            timeout: options.timeout*1000,
             //Success callback
             success: function(response, text) {
             	serverSuccessIcon();
@@ -28,6 +29,23 @@ function makeCollectRequest(url, options) {
             	launchCollectErrorAction(options.Success);
             }
 		});
+    	var progressTimeout = (options.timeout/2);
+    	var startTime = new Date().getTime();
+		$('div.progress').show();
+  		window.setTimeout(function updateProgress() {
+            $('div.bar').width(((new Date().getTime()-startTime)/(progressTimeout*1000))*98+'%');
+            if((new Date().getTime()-startTime) < (progressTimeout*1000)) {
+      			window.setTimeout(updateProgress, 500);
+      		};
+        }, 500);
+      	$(document).on('ajaxStop',   function() { 
+      		$('div.bar').width("100%");
+      		setTimeout(function() {
+      			$('div.bar').width("0");
+      	   	}, 1000);
+      		$('div.progress').hide();
+      	});
+    	
     }
      
     function launchCollectSuccessAction(response, success, hashtag){
