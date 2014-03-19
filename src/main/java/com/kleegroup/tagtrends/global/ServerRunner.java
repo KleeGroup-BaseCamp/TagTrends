@@ -18,7 +18,8 @@ import com.sun.jersey.api.container.grizzly2.GrizzlyServerFactory;
  */
 public class ServerRunner {
 	public static final URI BASE_URI = getBaseURI();
-	public static final String PROTECTED_COLLECTION = "exampleData";
+	public static final String PROTECTED_COLLECTION = "--rien--"; //"sampleData"
+	public static final String DATABASE_IP = "192.168.247.11"; //"mongostd.dev.klee.lan.net"
 
 	/**
 	 * Lancement du serveur Grizzly pour les WebServices.
@@ -27,40 +28,38 @@ public class ServerRunner {
 	 */
 	public static void main(final String[] args) throws IOException {
 		final HttpServer httpServer = startServer();
-		System.out.println(String.format("Jersey app started with WADL available at " + "%sapplication.wadl\nTry out %sdata\nHit enter to stop it...", BASE_URI, BASE_URI));
-		System.in.read();
-		httpServer.stop();
+		System.out.println(String.format("Jersey app started with WADL available at " + "%sapplication.wadl\nTry out %sdata", BASE_URI, BASE_URI));
+		try {
+
+			final Object lock = new Object();
+			synchronized (lock) {
+				lock.wait(0); //on attend le temps demandé et 0 => illimité
+			}
+		} catch (final InterruptedException e) {
+			//rien arret normal
+		} catch (final Exception e) {
+			e.printStackTrace();
+		} finally {
+			httpServer.shutdownNow();
+		}
 	}
 
 	protected static HttpServer startServer() throws IOException {
-
 		System.out.println("Starting grizzly...");
-		//final ResourceConfig rc = new PackagesResourceConfig("");
 		final HttpServer httpServer = GrizzlyServerFactory.createHttpServer(BASE_URI/*, rc*/);
 		httpServer.getServerConfiguration().addHttpHandler(new CLStaticHttpHandler(ServerRunner.class.getClassLoader(), "/static/"), "/static");
-		// TODO : faire marcher !!
-
-		//httpServer.getServerConfiguration().addHttpHandler(new StaticHttpHandler("src/main/resources/static"), "/static");
-		//		httpServer.getServerConfiguration().addHttpHandler(
-		//				new StaticHttpHandler(
-		//						"src/main/resources/"),
-		//				"/");
 		return httpServer;
 	}
 
 	private static int getPort(final int defaultPort) {
 		final String port = System.getProperty("jersey.test.port");
 		if (null != port) {
-			try {
-				return Integer.parseInt(port);
-			} catch (final NumberFormatException e) {
-			}
+			return Integer.parseInt(port);
 		}
 		return defaultPort;
 	}
 
 	private static URI getBaseURI() {
-		//return UriBuilder.fromUri("http://192.168.255.10/").port(getPort(9998)).build();
 		return UriBuilder.fromUri("http://0.0.0.0/").port(getPort(9998)).build();
 	}
 }
